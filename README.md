@@ -1,4 +1,4 @@
-# DefenciveStats
+# DefensiveStats
 
 Statical Metrics for Defense in Basketball
 
