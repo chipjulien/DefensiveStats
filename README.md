@@ -1,6 +1,6 @@
 # DefenciveStats
 
-Statical metrics for Defense in Basketball
+Statical Metrics for Defense in Basketball
 
 #Introduction
 
@@ -16,9 +16,9 @@ Allen, and Rudy Gobert night after night performing to the highest caliber but, 
 this is because "it's a make or miss league" a quote Ouzing offensive bias. along with the intangibles, any discrepancies in the 
 current approach of collecting each datum will be reviewed and reanalyzed. Ie if a player blocks a two-point shoot they get 1 block 
 but, if they block a three-point shoot they receive the same amount of blocks as if they blocked a two-point shoot. The vision system 
-will track defensive assist which is a new concept that will allow for more granularity. Defensive assists are metrics to award 
-players engaged in a rebound or steal that would've been awarded to other players not fully engaged in the defensive play. More 
-features and metrics will be added as the project grows.
+will track defensive assist which is a new concept that will allow for more granularity in each of the datums. Defensive assists are 
+metrics to award players engaged in a rebound or steal that would've been awarded to other players not fully engaged in the defensive 
+play. More features and metrics will be added as the project grows.
 
 #Objectives
 
@@ -31,7 +31,7 @@ scored together for team results.
 #balltracking.py
 
 Uses opencv, numpy, and moviepy libraries to clip subdivisions of video from the larger mp4 video.
-We track the ball with the Shi-Tomasi corner detection, then decide which side of the halfcourt the ball is currently on.
+We track the ball with the Shi-Tomasi corner detection method, then decide which side of the halfcourt the ball is currently on.
 Each time ball_location != prev_ball_location the file will be segmented and saved as play 1,2,3...
 
 #TODO
