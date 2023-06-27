@@ -36,5 +36,6 @@ Each time ball_location != prev_ball_location the file will be segmented and sav
 
 #TODO
 
-Debug balltracking.py - May need to move the project into C++
-Build defensive Algo's
+-Debug balltracking.py - May need to move the project into C++
+
+-Build defensive Algo's
