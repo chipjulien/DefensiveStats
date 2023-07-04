@@ -25,7 +25,7 @@ class BallTracker(object):
         """
         Function for testing class functionality
         """
-        video_path = self.ball_dir
+        video_path = self.ball_dir + "/sv1.mp4"
         self._logger.info("Start tracking basketball")
         self.track_basketball(video_path)
 
