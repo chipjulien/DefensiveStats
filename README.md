@@ -2,13 +2,13 @@
 
 Statical Metrics for Defense in Basketball
 
-#Introduction
+# Introduction
 
 This project is a prototype concept of a vision system that will accurately quantify defensive metrics in basketball.
 This project will scale to analyzing live feed video but, currently, we parse through static mp4 files. Future plans to add advanced 
 defensive statistics.
 
-#Background
+# Background
 
 This project was created to fill the gap in statistical metrics captured while playing defense in basketball. These metrics are 
 commonly known as the intangible attributes of a player. During the regular season, you can view players such as Marcus Smart, Tony 
@@ -20,7 +20,7 @@ will track defensive assist which is a new concept that will allow for more gran
 metrics to award players engaged in a rebound or steal that would've been awarded to other players not fully engaged in the defensive 
 play. More features and metrics will be added as the project grows.
 
-#Objectives
+# Objectives
 
 This project will build an engine that will parse visual data in the form of basketball games and deliver a score based on the 
 defensive metric algorithms created to analyze visual defensive intangibles. The first module will track the ball in an mp4 file and 
@@ -28,14 +28,22 @@ clip the video into subdivisions of plays segmented by the number of times the b
 will be parsed through the defensive algorithm and scored. These scores will be for an individual player which will be collected and 
 scored together for team results.
 
-#balltracking.py
+# balltracker.py
 
 Uses opencv, numpy, and moviepy libraries to clip subdivisions of video from the larger mp4 video.
 We track the ball with the Shi-Tomasi corner detection method, then decide which side of the halfcourt the ball is currently on.
 Each time ball_location != prev_ball_location the file will be segmented and saved as play 1,2,3...
 
-#TODO
+# How to Run
+1. If opting to use a venv then create via `python3 -m venv name_of_venv`
+2. `source name_of_venv/bin/activate` to activate the virtualenv
+3. `pip install -r requirements.txt` 
+4. Launch the main application `python3 main.py`
+5. This will drop you into an IPython terminal to run various functions
 
--Debug balltracking.py - May need to move the project into C++
+## Commands
+1. 
+
+# TODO
 
 -Build defensive Algo's
