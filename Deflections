@@ -1,0 +1,3 @@
+if ball_in_defender_proximity(ball_pos, defender_pos, threshold=0.5):
+    if trajectory_change(ball_trajectory) and not possession_change(ball_id):
+        log_deflection(defender_id, timestamp)
