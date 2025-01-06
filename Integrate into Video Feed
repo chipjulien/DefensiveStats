@@ -1,0 +1,31 @@
+cap = cv2.VideoCapture('game_video.mp4')  # Replace with live feed if needed
+kalman = KalmanFilter()
+
+ball_positions = []
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Example detections (replace with YOLO outputs)
+    ball_pos = (300, 400)  # Replace with actual ball position
+    shooter = {'bbox': (280, 380, 320, 420)}  # Replace with actual shooter bbox
+    defenders = [{'bbox': (200, 300, 240, 340)}, {'bbox': (350, 400, 380, 420)}]  # Replace with actual defenders
+
+    # Update ball tracking
+    smoothed_ball_pos = kalman.update(ball_pos)
+    ball_positions.append(smoothed_ball_pos)
+
+    # Event detection
+    contested = detect_shot(ball_positions, np.array(shooter['bbox'][:2]))
+    blocked = detect_block(ball_positions, [np.array(defender['bbox'][:2]) for defender in defenders])
+
+    # Visualize
+    processed_frame = visualize_frame(frame, ball_positions[-10:], shooter, defenders, contested, blocked)
+    cv2.imshow("Basketball Analysis", processed_frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
