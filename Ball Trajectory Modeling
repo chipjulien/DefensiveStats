@@ -1,0 +1,2 @@
+if ball_released_from_shooter(shooter_pos, ball_pos) and upward_velocity(ball_velocity):
+    log_shot_attempt()
