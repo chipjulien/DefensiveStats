@@ -1,0 +1,7 @@
+def detect_rebound(ball_pos, player_positions):
+    if ball_descending(ball_pos):
+        nearest_player, distance = find_nearest_player(ball_pos, player_positions)
+        if distance < rebound_threshold:
+            log_rebound_event(nearest_player)
+            return nearest_player
+    return None
