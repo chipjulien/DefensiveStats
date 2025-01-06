@@ -1,0 +1,7 @@
+def detect_screen(offensive_pos, defensive_pos, offensive_velocity, path_deviation_threshold):
+    if np.linalg.norm(offensive_velocity) < stationary_threshold:
+        deviation = calculate_path_deviation(defensive_pos, offensive_pos)
+        if deviation > path_deviation_threshold:
+            log_screen_event(offensive_pos, defensive_pos)
+            return True
+    return False
