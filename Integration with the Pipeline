@@ -1,0 +1,21 @@
+# Example loop
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Detect events
+    contested = detect_shot(ball_positions, shooter['pos'])
+    blocked = detect_block(ball_positions, [def['pos'] for def in defenders])
+    closeout = detect_closeout(defender['pos'], shooter['pos'], defender['velocity'])
+    rebounder = detect_rebound(ball_positions[-1], [p['pos'] for p in players])
+    screen = detect_screen(offensive_player['pos'], defender['pos'], offensive_player['velocity'])
+
+    # Visualize
+    processed_frame = visualize_frame(
+        frame, ball_positions, shooter, defenders, contested, blocked, closeout, rebounder, screen
+    )
+    cv2.imshow("Basketball Analysis", processed_frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
