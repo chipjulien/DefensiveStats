@@ -1,0 +1,8 @@
+if ball_out_of_bounds(ball_pos, court_bounds):
+    log_turnover(type="out_of_bounds", timestamp)
+
+elif possession_change(ball_id, new_possessor=defender_id):
+    log_turnover(type="steal", timestamp)
+
+elif ball_in_neutral_space(ball_pos, player_positions):
+    log_turnover(type="bad_pass", timestamp)
