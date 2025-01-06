@@ -1,0 +1,3 @@
+if ball_in_defender_proximity(ball_pos, defender_pos, threshold=0.5):
+    if possession_change(ball_id, new_possessor=defender_id):
+        log_steal(defender_id, timestamp)
