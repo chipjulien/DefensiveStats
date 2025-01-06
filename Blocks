@@ -1,0 +1,5 @@
+if shot_detected(ball_trajectory, player_with_possession):
+    for defender in defenders_near_shooter:
+        if ball_in_defender_proximity(ball_pos, defender_pos, block_threshold):
+            if trajectory_change(ball_trajectory, post_deflection=True):
+                log_block(defender_id, shooter_id, timestamp)
