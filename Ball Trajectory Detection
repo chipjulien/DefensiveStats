@@ -1,0 +1,5 @@
+def detect_shot(ball_positions, player_pos, velocity_threshold=5):
+    velocity = np.diff(ball_positions, axis=0) / 0.033  # Assuming 30 FPS
+    upward_motion = velocity[:, 1] < -velocity_threshold  # Negative Y velocity (upward)
+    release_detected = np.linalg.norm(ball_positions[-1] - player_pos) > 1.0  # Ball far from player
+    return release_detected and np.any(upward_motion)
