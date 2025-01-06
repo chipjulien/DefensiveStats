@@ -1,0 +1,6 @@
+if shot_detected(ball_trajectory, player_with_possession):
+    shooter = player_with_possession
+    nearest_defender, distance = find_nearest_defender(shooter_pos, all_defenders)
+    
+    if distance < contest_threshold:
+        log_contested_shot(shooter_id, defender_id, timestamp)
