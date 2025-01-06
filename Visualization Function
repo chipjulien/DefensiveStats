@@ -1,0 +1,17 @@
+def visualize_frame(frame, ball_positions, shooter, defenders, contested, blocked, closeout, rebounder, screen):
+    # Existing visualizations
+    # ...
+
+    # Annotate Closeouts
+    if closeout:
+        cv2.putText(frame, "Closeout", (50, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2)
+
+    # Annotate Rebounds
+    if rebounder:
+        cv2.putText(frame, f"Rebound by Player {rebounder}", (50, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
+    # Annotate Screens
+    if screen:
+        cv2.putText(frame, "Screen Detected", (50, 250), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
+
+    return frame
