@@ -1,0 +1,5 @@
+def detect_closeout(defender_pos, shooter_pos, defender_velocity, threshold=0.8):
+    vector_to_shooter = shooter_pos - defender_pos
+    cos_similarity = np.dot(defender_velocity, vector_to_shooter) / (
+        np.linalg.norm(defender_velocity) * np.linalg.norm(vector_to_shooter))
+    return cos_similarity > threshold
