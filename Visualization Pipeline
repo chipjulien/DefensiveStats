@@ -1,0 +1,23 @@
+import cv2
+
+def visualize_frame(frame, ball_positions, shooter, defenders, contested, blocked):
+    # Draw ball trajectory
+    for i in range(len(ball_positions) - 1):
+        cv2.line(frame, tuple(ball_positions[i]), tuple(ball_positions[i + 1]), (0, 255, 255), 2)
+
+    # Highlight shooter
+    cv2.rectangle(frame, shooter['bbox'][:2], shooter['bbox'][2:], (0, 255, 0), 2)
+    cv2.putText(frame, "Shooter", shooter['bbox'][:2], cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
+    # Highlight defenders
+    for defender in defenders:
+        cv2.rectangle(frame, defender['bbox'][:2], defender['bbox'][2:], (0, 0, 255), 2)
+        cv2.putText(frame, "Defender", defender['bbox'][:2], cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+
+    # Annotate events
+    if contested:
+        cv2.putText(frame, "Contested Shot", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    if blocked:
+        cv2.putText(frame, "Blocked Shot", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+
+    return frame
