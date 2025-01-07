@@ -1,0 +1,108 @@
+Proof of Concept: Computer Vision System for Basketball Defensive Metrics
+
+1. Introduction
+
+The goal of this proof of concept is to develop a computer vision system that can automatically track and analyze basketball games to extract defensive metrics. Using readily available hardware and open-source software, the system will track player and ball movement, identify defensive actions such as steals, blocks, and deflections, and generate relevant statistics.
+
+2. Methodology
+
+2.1 Hardware and Software Requirements
+Hardware:
+Jetson Nano
+Raspberry Pi Camera Module v2 with wide-angle lens
+5V 4A Power Supply
+32GB or 64GB microSD Card
+Case with Cooling Fan
+Tripod or Mounts
+LED strip lights (optional)
+Software:
+JetPack SDK with Ubuntu 18.04/20.04
+PyTorch
+YOLOv5 or YOLOv8
+DeepSORT or ByteTrack
+OpenCV
+TensorRT (for optimization)
+2.2 Computer Vision Pipeline
+
+The core of the system is a computer vision pipeline that processes video frames to detect and track objects and events. The pipeline consists of the following stages:
+Object Detection: YOLOv5/YOLOv8 is used to detect players, the ball, and referees in each frame.
+Object Tracking: DeepSORT or ByteTrack assigns unique IDs to detected objects and tracks their movement across frames.
+Event Detection: Custom algorithms analyze object trajectories and interactions to identify defensive actions (e.g., steals, blocks).
+Metric Calculation: Based on detected events, defensive metrics are calculated (e.g., steals per game, defensive rating).
+2.3 Ball Trajectory Modeling
+
+Ball trajectory modeling is a key component for detecting events like shots and blocks. A Kalman Filter is used to smooth the ball's trajectory and estimate its velocity.
+# Kalman filter setup for tracking (simplified)
+def kalman_filter(ball_positions):
+  # Placeholder for Kalman Filter implementation 
+  smoothed_positions = np.array(ball_positions)  # Apply Kalman smoothing
+  return smoothed_positions
+
+# Detect shot attempts 
+def detect_shot(ball_positions, player_pos, velocity_threshold):
+  velocity = np.diff(ball_positions, axis=0) / 0.033  # Assuming 30 FPS 
+  upward_motion = velocity[:, 1] > velocity_threshold  # Positive Y velocity 
+  release_detected = ball_released_from_shooter(player_pos, ball_positions[-1])
+  return release_detected and np.any(upward_motion)
+
+# Detect blocks 
+def detect_block(ball_positions, defender_pos, block_threshold):
+  predicted_trajectory = np.polyfit(ball_positions[:, 0], ball_positions[:, 1], 2) 
+  actual_positions = np.array(ball_positions)  
+  deviation = np.abs(np.polyval(predicted_trajectory, actual_positions[:, 0]) - actual_positions[:, 1])  
+  return np.any(deviation > block_threshold)
+2.4 Defensive Metrics
+
+The system will track a variety of individual and team defensive metrics, including:
+Individual: Steals, blocks, defensive rebounds, deflections, contested shots, charges taken, defensive field goal percentage, opponent turnovers forced, box outs, fouls committed, steal-to-turnover ratio, defensive rating, loose ball recoveries.
+Team: Defensive efficiency, opponent points per game, opponent shooting percentage, opponent turnovers, points off turnovers, defensive rebounding percentage, opponent points in the paint, opponent fast break points, opponent second chance points, screen containment, switch success rate, closeouts, opponent offensive rebounds allowed, help defense metrics, transition defense metrics.
+3. Proof of Concept Implementation
+
+The proof of concept will be implemented using a Jetson Nano and a Raspberry Pi camera. The YOLOv5/YOLOv8 object detection model will be trained on a basketball dataset. The DeepSORT/ByteTrack algorithm will be used for object tracking. Custom algorithms will be developed to detect defensive actions.
+
+4. Results and Evaluation
+
+The system will be evaluated on its ability to accurately track players and the ball, detect defensive actions, and calculate defensive metrics. The results will be compared to manual annotations and existing statistics.
+
+5. Conclusion
+Improving Shot Contest Detection Accuracy
+
+Several techniques can be employed to enhance the accuracy of the shot contest detection algorithm:
+Fine-tune Proximity Threshold:
+The current threshold for determining if a defender is contesting a shot might need adjustment.
+Experiment with different distance values based on real-world game analysis and player reach.
+Consider using dynamic thresholds that adjust based on the shooter's position and shot type.
+Incorporate Defender's Orientation and Pose:
+The current algorithm only considers distance.
+By analyzing the defender's body orientation and pose, you can determine if they are actively facing and reaching towards the shooter.
+This can help differentiate between a defender simply being close and actively contesting the shot.
+Analyze Time Spent in Contested Zone:
+A defender might be within the proximity threshold but not actively contesting the shot.
+Track the duration for which the defender remains within the contested zone during the shot attempt.
+A longer duration indicates a higher likelihood of an active contest.
+Consider Ball Trajectory and Velocity:
+A defender's proximity alone might not be enough, especially if the ball's trajectory is out of their reach.
+Analyze the ball's trajectory and velocity in relation to the defender's position and reach to estimate the likelihood of a successful contest.
+Machine Learning Models for Contest Classification:
+Train a machine learning model to classify shot contests based on multiple features:
+Defender's proximity
+Defender's orientation and pose
+Time spent in the contested zone
+Ball trajectory and velocity
+This model can learn complex relationships between these features and improve contest detection accuracy.
+The most difficult defensive action to detect is likely deflections.
+
+Why Deflections are Difficult to Detect:
+Subtlety of Contact: Deflections often involve a slight touch or change in the ball's trajectory, which can be hard to discern from normal ball movement or camera noise.
+Brief Interaction: The interaction between the defender and the ball during a deflection is usually very brief, making it challenging to capture consistently within a single frame or even a few frames.
+Occlusion and Crowding: In a fast-paced game with multiple players, the ball and the defender's hands might be frequently occluded by other players or body parts, making it difficult to accurately track the interaction.
+Lack of Clear Possession Change: Unlike steals, deflections don't result in a clear change of possession, making it harder to define a distinct trigger for detection.
+Other Challenging Actions
+Contested Shots: While easier than deflections, accurately determining whether a shot is truly contested can be challenging due to the need to consider factors like defender proximity, timing, and the shooter's release point.
+Screens: Detecting screens requires analyzing player movements and interactions, which can be complex due to the varying screen types and the dynamic nature of player positioning.
+Note: While blocks and steals involve contact and possession changes, they are generally easier to detect due to the more pronounced changes in ball trajectory and possession.
+The Kalman Filter is used in ball trajectory modeling because it provides a robust and accurate way to track the ball's motion, even with noisy or incomplete data.
+Smooths Trajectory: The Kalman Filter takes noisy measurements of the ball's position from the video feed and uses a physics-based model to predict where the ball is likely to be in the next frame. It then combines this prediction with the actual measurement to produce a smoothed estimate of the ball's position. This smoothing helps to reduce the impact of noise and outliers, resulting in a more accurate and visually pleasing trajectory.
+Handles Occlusions: In real-world basketball games, the ball may be temporarily occluded by players or other objects. The Kalman Filter can handle these occlusions by relying on its internal model to predict the ball's position even when it is not visible. This helps to maintain a continuous track of the ball's motion.
+Estimates Velocity: The Kalman Filter not only tracks the ball's position but also estimates its velocity. This information is crucial for detecting events such as shot attempts, blocks, and deflections, which all depend on the ball's motion.
+Overall, the Kalman Filter is a valuable tool for ball trajectory modeling in computer vision systems for basketball analysis. It provides a robust and accurate way to track the ball's motion, even in challenging conditions, and enables the detection of important events in the game.
